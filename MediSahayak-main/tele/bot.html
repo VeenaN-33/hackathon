@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: white;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+    #chat-container {
+      width: 100%;
+      max-width: 600px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      overflow-y: auto;
+      height: 400px;
+      margin-bottom: 10px;
+    }
+    .input-container {
+      display: flex;
+      width: 100%;
+    }
+    .input-container input {
+      flex-grow: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .input-container button {
+      padding: 10px 15px;
+      margin-left: 5px;
+      background-color: #4c84af;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+  <title>MediSahayak Chatbot</title>
+</head>
+<body>
+
+<h1>MediSahayak Chatbot</h1>
+<div id="chat-container"></div>
+
+<div class="input-container">
+  <input type="text" id="user-input" placeholder="Ask me anything about healthcare...">
+  <button id="send-button">Send</button>
+</div>
+<button id="get-location-button">Share My Location</button>
+
+<script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+<script>
+  // Initialize Botpress Web Chat
+  window.botpressWebChat.init({
+    "botId": "c112af79-fb66-446d-86b7-fbc7ae601d27",
+    "hostUrl": "https://cdn.botpress.cloud/webchat/v1",
+    "messagingUrl": "https://messaging.botpress.cloud",
+    "clientId": "c112af79-fb66-446d-86b7-fbc7ae601d27",
+    "webhookId": "18fad69a-a724-4729-bfb3-533cf8ca3861",
+    "lazySocket": true,
+    "themeColor": "#2563eb",
+    "hideWidget": false
+  });
+
+  // Show chat widget when the bot is loaded
+  window.botpressWebChat.onEvent(() => {
+    window.botpressWebChat.sendEvent({ type: 'show' });
+  }, ['LIFECYCLE.LOADED']);
+
+  // Handle user input and send to Botpress
+  document.getElementById('send-button').addEventListener('click', () => {
+    const userInput = document.getElementById('user-input').value;
+    if (userInput) {
+      window.botpressWebChat.sendEvent({
+        type: 'text',
+        text: userInput
+      });
+      document.getElementById('user-input').value = ''; // Clear input
+    }
+  });
+
+  // Get and send user's location
+  document.getElementById('get-location-button').addEventListener('click', () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const locationData = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        };
+        window.botpressWebChat.sendEvent({
+          type: 'location',
+          payload: locationData
+        });
+        window.botpressWebChat.sendEvent({
+          type: 'text',
+          text: 'Your location has been shared with the bot.'
+        });
+      }, error => {
+        console.error('Error retrieving location:', error);
+        alert('Unable to retrieve your location. Please check your location settings.');
+      });
+    } else {
+      alert('Geolocation is not supported by your browser.');
+    }
+  });
+</script>
+
+</body>
+</html>

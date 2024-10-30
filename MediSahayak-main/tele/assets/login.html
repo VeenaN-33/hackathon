@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrlrMedicine</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <script>
+        // JavaScript function to change language
+        function changeLanguage(lang) {
+            const texts = {
+                en: {
+                    title: "Welcome to TrlrMedicine",
+                    description: "Your health is our priority.",
+                    emailLabel: "Email:",
+                    passwordLabel: "Password:",
+                    loginButton: "Login",
+                    registerText: "Don't have an account? ",
+                    registerLink: "Register here",
+                },
+                kn: {
+                    title: "ಟ್ರ್ಲರ್ ಮೆಡಿಸಿನ್ ಗೆ ಸುಸ್ವಾಗತ",
+                    description: "ನಿಮ್ಮ ಆರೋಗ್ಯ ನಮ್ಮ ಆದ್ಯತೆ.",
+                    emailLabel: "ಇಮೇಲ್:",
+                    passwordLabel: "ಪಾಸ್ವರ್ಡ್:",
+                    loginButton: "ಲಾಗ್ ಇನ್",
+                    registerText: "ನೋಂದಣಿಯಿಲ್ಲವೇ? ",
+                    registerLink: "ಇಲ್ಲಿ ನೋಂದಣಿ ಮಾಡಿ",
+                }
+            };
+
+            // Update text content based on selected language
+            document.getElementById('title').textContent = texts[lang].title;
+            document.getElementById('description').textContent = texts[lang].description;
+            document.getElementById('email-label').textContent = texts[lang].emailLabel;
+            document.getElementById('password-label').textContent = texts[lang].passwordLabel;
+            document.getElementById('login-button').textContent = texts[lang].loginButton;
+            document.getElementById('register-text').textContent = texts[lang].registerText;
+            document.getElementById('register-link').textContent = texts[lang].registerLink;
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1 id="title">Welcome to TrlrMedicine</h1>
+        <p id="description">Your health is our priority.</p>
+        <div>
+            <button onclick="changeLanguage('en')">English</button>
+            <button onclick="changeLanguage('kn')">Kannada</button>
+        </div>
+    </header>
+    <div id="login-container">
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label id="email-label" for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label id="password-label" for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" id="login-button">Login</button>
+            <p id="register-text">Don't have an account? <a href="/register" id="register-link">Register here</a></p>
+        </form>
+    </div>
+</body>
+</html>
